@@ -74,7 +74,7 @@ def make_dataset(train_gbm=False):
         pickle.dump(clf.best_estimator_, f)
     return X, X_more_feats,torch.from_numpy(X_train).long(),torch.from_numpy(X_test).long(),split_num
 
-X,X_more_feats,edge_dataset_train,edge_dataset_test,split_num = make_dataset()
+_,X_more_feats,edge_dataset_train,edge_dataset_test,split_num = make_dataset(True)
 X = torch.from_numpy(np.load(f'{date_name}/prepared_data/X_with_feats_selection.npy'))
 
 """
@@ -113,8 +113,8 @@ model.to(Device)
 
 dset = TensorDataset(edge_dataset_train)
 dset_test = TensorDataset(edge_dataset_test)
-data_loader = DataLoader(dset, batch_size=25,shuffle = True)
-data_loader_test = DataLoader(dset_test, batch_size=25)
+data_loader = DataLoader(dset, batch_size=256,shuffle = True)
+data_loader_test = DataLoader(dset_test, batch_size=256)
 optimizer = optim.Adam(model.parameters(), lr=8e-5, weight_decay=3e-6)
 # model, optimizer = amp.initialize(model, optimizer,opt_level='O1')
 #
