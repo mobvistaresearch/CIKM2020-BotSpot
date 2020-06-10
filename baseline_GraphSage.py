@@ -57,7 +57,7 @@ def make_dataset(train_gbm=False):
 
     return X, X_more_feats,torch.from_numpy(X_train).long(),torch.from_numpy(X_test).long(),split_num
 
-X,X_more_feats,edge_dataset_train,edge_dataset_test,split_num = make_dataset()
+_,X_more_feats,edge_dataset_train,edge_dataset_test,split_num = make_dataset()
 X = torch.from_numpy(np.load(f'{date_name}/prepared_data/X_with_feats_selection.npy'))
 """
 X:feature matrix for channel-campaign node and device node
