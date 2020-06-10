@@ -109,7 +109,7 @@ class Graph_Conv(torch.nn.Module):
                                Msg_out(input1_dim, hidden1_dim)]))
 
         if is_left:
-            self.attn = nn.Linear(hidden2_dim + 20 + 32, 48)
+            self.attn = nn.Linear(hidden2_dim + 20 + 32, 48) # 20 channel-campaign node features + 32 embedding feature for channel-id
             self.attn_layer2 = nn.Linear(48, 1)
         self.message_out = Msg_out(input1_dim, hidden1_dim)
 
@@ -158,7 +158,6 @@ class Graph_Conv(torch.nn.Module):
 
     def forward(self, x, nei_vertice):  # x:->List of vertices
         '''
-
         :param x: List of vertices
         :param nei_vertice:  List of corresponding vertices to x, e.g., an edge (x[0],nei_vertices[0]), (x[1],nei_vertices[1])
         :return: extracted node features for every node in x.
@@ -403,7 +402,7 @@ class BotSpot(torch.nn.Module):
             channel_to_device_flow = [edge_index_bots, edge_index_normal]
         # dims: [local_dims,remote_dims,local_hidden_dims,remote_hidden_dims]
         # graph_model_rev is the
-
+        # dims[0]--> channel-campaign node features:20 node features + 32 for channel-id embeedings. device node-->22 node features + 3 embedding features, each of 32 dimensions and 1 embedding feature of 8 dimensions.
         self.graph_model = Graph_Conv(dims=[20 + 32, 22 + 3 * 32 + 1 + 8, 32, 64], num_hop=1, num_neighbor=[0, 30],
                                       edge_index=channel_to_device_flow, split_num=split_num,
                                       reverse=False, data=data,
@@ -412,7 +411,7 @@ class BotSpot(torch.nn.Module):
                                       carrier_emb=self.carrier_emb, language_emb=self.language_emb,
                                       device_brand_emb=self.device_brand_emb,
                                       device_name_emb=self.device_name_emb, plat_os_emb=self.plat_os_emb,split_bots_normal=split_bots_normal)
-        self.device_linear = nn.Linear(127, 64)
+        self.device_linear = nn.Linear(127, 64) # 127 = 22+3*32+1+8
         self.device_dropout = nn.Dropout(0.4)
         self.device_norm  = nn.BatchNorm1d(64)
         self.linear_edge = nn.Linear(32 + 64 + 64, 64)
