@@ -16,7 +16,7 @@ install_language_max=393
 device_brand_max=3220
 plat_os_max=13
 
-
+# uncomment this if try to replicate dataset-2
 # dataset-2
 # channel_id_max=1544
 # install_carrier_max=1918
