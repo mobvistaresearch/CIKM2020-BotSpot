@@ -161,9 +161,7 @@ class NN_with_leaf_emb(torch.nn.Module):
         return ret
 
 
-
-
-X, X_more_feats, edge_dataset, X_train, X_test, split_num = make_dataset()
+X, X_more_feats, edge_dataset, X_train, X_test, split_num = make_dataset(True)
 """
 X:feature matrix for channel-campaign node and device node
 X_more_feats:feature matrix for channel-campaign node and device node, the features are un-normalized
