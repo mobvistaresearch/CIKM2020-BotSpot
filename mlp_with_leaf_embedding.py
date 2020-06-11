@@ -104,9 +104,8 @@ def make_dataset(train_gbm=False):
 
 class NN_with_leaf_emb(torch.nn.Module):
 
-    def __init__(self, X, X_more_feats, *emb_matrixs, gbm_model=None):
+    def __init__(self, X, X_more_feats, gbm_model=None):
         super(NN_with_leaf_emb, self).__init__()
-        self.carrier_emb, self.language_emb, self.device_brand_emb, self.plat_os_emb, self.channel_id_emb = emb_matrixs
         self.X = X
         self.X_more_feats = X_more_feats
         self.gbm_best_model = gbm_model
@@ -177,28 +176,14 @@ dev = X_train[:, 1]
 labels = X_train[:, 2]
 X = torch.from_numpy(np.load(f'{date_name}/prepared_data/X_with_feats_selection.npy'))
 
-channel_id_max = int(X_more_feats[split_num - 1:, 20].max().item())
-install_carrier_max = int(X_more_feats[:split_num - 1, 5].max().item())
-install_language_max = int(X_more_feats[:split_num - 1, 6].max().item())
-device_brand_max = int(X_more_feats[:split_num - 1, 7].max().item())
-plat_os_max = int(X_more_feats[:split_num - 1, 9].max().item())
-print(channel_id_max, install_carrier_max, install_language_max, device_brand_max, plat_os_max)
-
 
 for g in os.listdir(f"{date_name}/gbm_models/"):
     if '200' in g:
         f = open(f"{date_name}/gbm_models/"+g,"rb")
         gbm_best_model = pickle.load(f)
-    break
 print (gbm_best_model)
 
-channel_id_emb = nn.Embedding(channel_id_max + 1, 32)
-carrier_emb = nn.Embedding(install_carrier_max + 1, 32)
-language_emb = nn.Embedding(install_language_max + 1, 32)
-device_brand_emb = nn.Embedding(device_brand_max + 1, 32)
-device_name_emb = nn.Linear(1 + 1, 12)
-plat_os_emb = nn.Embedding(plat_os_max + 1, 8)
-nn_model = NN_with_leaf_emb(X,X_more_feats,carrier_emb,language_emb,device_brand_emb,plat_os_emb,channel_id_emb,gbm_model=gbm_best_model)
+nn_model = NN_with_leaf_emb(X,X_more_feats,gbm_model=gbm_best_model)
 Device = torch.device('cuda:0') if torch.cuda.is_available() else torch.device('cpu')
 print(Device)
 
