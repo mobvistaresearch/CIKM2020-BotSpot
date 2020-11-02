@@ -15,7 +15,7 @@ Please cite our paper as below if you use this code in your work:
 ```
 @article{Yao2020BotSpotAH,
   title={BotSpot: A Hybrid Learning Framework to Uncover Bot Install Fraud in Mobile Advertising},
-  author={Tianjun Yao and Q. Li and Shangsong Liang and Yadong Zhu},
+  author={Tianjun Yao and Qing Li and Shangsong Liang and Yadong Zhu},
   journal={Proceedings of the 29th ACM International Conference on Information & Knowledge Management},
   year={2020},
   url = {https://dl.acm.org/doi/abs/10.1145/3340531.3412690},
