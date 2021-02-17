@@ -129,7 +129,7 @@ if __name__ == '__main__':
     train_dset = TensorDataset(X_train)
     test_dset = TensorDataset(X_test)
     train_data_loader = DataLoader(train_dset, batch_size=256,shuffle = True)
-    test_data_loader = DataLoader(train_dset, batch_size=256)
+    test_data_loader = DataLoader(test_dset, batch_size=256)
     optimizer = optim.Adam(nn_model.parameters(), lr=2e-4, weight_decay=1e-6)
     epoch = 10
     for e in range(epoch):
